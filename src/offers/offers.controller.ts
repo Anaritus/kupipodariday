@@ -24,11 +24,13 @@ export class OffersController {
     return await this.offersService.create(createOfferDto, req.user.id);
   }
 
+  @UseGuards(JwtGuard)
   @Get()
   findAll() {
     return this.offersService.findMany();
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   getOffer(@Param('id') id: number) {
     return this.offersService.findOne({ id });

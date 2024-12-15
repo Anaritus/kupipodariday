@@ -44,6 +44,7 @@ export class WishesController {
     return this.wishesService.findPopular();
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return await this.wishesService.findOne({ id });

@@ -56,6 +56,7 @@ export class UsersController {
     return user.wishes;
   }
 
+  @UseGuards(JwtGuard)
   @Get(':username')
   async getPublicUser(
     @Param('username') username: string,
@@ -67,6 +68,7 @@ export class UsersController {
     return user;
   }
 
+  @UseGuards(JwtGuard)
   @Get(':username/wishes')
   async getPublicUserWishes(
     @Param('username') username: string,
@@ -80,6 +82,7 @@ export class UsersController {
     return user.wishes;
   }
 
+  @UseGuards(JwtGuard)
   @Post('find')
   async findUsers(
     @Body() findUsersDto: FindUsersDto,

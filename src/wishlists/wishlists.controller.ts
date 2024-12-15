@@ -18,6 +18,7 @@ import { JwtGuard } from 'src/jwt/jwt.guard';
 export class WishlistsController {
   constructor(private readonly wishlistsService: WishlistsService) {}
 
+  @UseGuards(JwtGuard)
   @Get()
   findAll() {
     const wishlists = this.wishlistsService.findMany();
@@ -33,6 +34,7 @@ export class WishlistsController {
     return await this.wishlistsService.create(createWishlistDto, req.user.id);
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.wishlistsService.findOne({ id });
