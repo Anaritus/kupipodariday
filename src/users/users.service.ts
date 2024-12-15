@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -28,7 +32,7 @@ export class UsersService {
     return users;
   }
 
-  async checkExists(createUserDto: CreateUserDto) {
+  async checkExists(createUserDto: UpdateUserDto) {
     const users = await this.userRepository.find({
       where: [
         { username: createUserDto.username },
@@ -63,6 +67,11 @@ export class UsersService {
     options: FindOptionsWhere<User>,
     updateUserDto: UpdateUserDto,
   ): Promise<UserProfileResponseDto> {
+    if (this.checkExists(updateUserDto)) {
+      throw new ConflictException(
+        'Пользователь с таким email или username уже зарегистрирован',
+      );
+    }
     await this.userRepository.update(options, updateUserDto);
     return await this.findOne(options);
   }
